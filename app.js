@@ -1,8 +1,8 @@
-const API = "http://localhost:3000";
+const API = "https://fitpilot-ai.onrender.com";
 
 function showSection(id) {
-  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
-  document.getElementById(id).style.display = "block";
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
 async function generate() {
@@ -12,7 +12,8 @@ async function generate() {
   const goal = document.getElementById("goal").value;
   const diet = document.getElementById("diet").value;
 
-  document.getElementById("planOutput").innerHTML = "⏳ Generating...";
+  const container = document.getElementById("planOutput");
+  container.innerHTML = "⏳ Waking up AI... please wait";
 
   try {
     const res = await fetch(`${API}/plan`, {
@@ -22,11 +23,10 @@ async function generate() {
     });
 
     const data = await res.json();
-
     renderPlan(data.plan);
 
   } catch (err) {
-    document.getElementById("planOutput").innerHTML = "❌ Error loading plan";
+    container.innerHTML = "❌ Failed to fetch plan";
   }
 }
 
@@ -34,15 +34,16 @@ function renderPlan(text) {
   const container = document.getElementById("planOutput");
   container.innerHTML = "";
 
-  const days = text.split("DAY");
+  const days = text.split("DAY").filter(d => d.trim());
 
-  days.forEach(d => {
-    if (d.trim() === "") return;
-
+  days.forEach((d, i) => {
     const card = document.createElement("div");
     card.className = "plan-card";
 
-    card.innerHTML = `<pre>${d}</pre>`;
+    card.innerHTML = `
+      <h3>Day ${i+1}</h3>
+      <div>${d.replace(/\n/g, "<br>")}</div>
+    `;
 
     container.appendChild(card);
   });

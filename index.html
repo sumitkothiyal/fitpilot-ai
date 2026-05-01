@@ -4,11 +4,8 @@
   <title>FitPilot AI</title>
 
   <link rel="stylesheet" href="style.css">
-
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- Chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -16,16 +13,13 @@
 
 <div class="app">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <h2>💪 FitPilot</h2>
-
     <button onclick="showSection('plan')">🏠 Plan</button>
     <button onclick="showSection('checkin')">✅ Check-in</button>
     <button onclick="showSection('progress')">📊 Progress</button>
   </div>
 
-  <!-- Main -->
   <div class="main">
 
     <h1>AI Fitness Coach</h1>
@@ -33,16 +27,18 @@
     <!-- PLAN -->
     <div id="plan" class="section active">
 
-      <div class="card form">
+      <div class="card">
         <h3>Your Profile</h3>
 
         <input id="age" placeholder="Age">
+        
         <select id="gender">
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
 
         <input id="weight" placeholder="Weight (kg)">
+
         <select id="diet">
           <option value="veg">Vegetarian</option>
           <option value="non-veg">Non-Vegetarian</option>
@@ -61,7 +57,6 @@
     <div id="checkin" class="section">
       <div class="card">
         <h3>Daily Check-in</h3>
-
         <button onclick="checkin(true)">✔ Followed</button>
         <button onclick="checkin(false)">❌ Missed</button>
       </div>
@@ -70,8 +65,7 @@
     <!-- PROGRESS -->
     <div id="progress" class="section">
       <div class="card">
-        <h3>Progress Dashboard</h3>
-
+        <h3>📊 Progress Dashboard</h3>
         <button onclick="loadProgress()">Refresh</button>
 
         <div id="stats"></div>

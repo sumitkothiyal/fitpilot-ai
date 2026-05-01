@@ -9,7 +9,6 @@ body {
   display: flex;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   background: #020617;
@@ -30,13 +29,19 @@ body {
   border-radius: 6px;
 }
 
-/* Main */
 .main {
   flex: 1;
   padding: 30px;
 }
 
-/* Cards */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
 .card {
   background: #1e293b;
   padding: 20px;
@@ -44,31 +49,36 @@ body {
   margin-bottom: 20px;
 }
 
-/* Grid layout */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 15px;
   margin-top: 20px;
 }
 
-/* Plan cards */
 .plan-card {
   background: #020617;
   padding: 15px;
   border-radius: 10px;
+  transition: transform 0.2s;
 }
 
-/* Inputs */
+.plan-card:hover {
+  transform: scale(1.03);
+}
+
+.plan-card h3 {
+  color: #22c55e;
+}
+
 input, select {
   width: 100%;
   padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
+  margin: 6px 0;
+  border-radius: 6px;
   border: none;
 }
 
-/* Buttons */
 button {
   background: #22c55e;
   border: none;

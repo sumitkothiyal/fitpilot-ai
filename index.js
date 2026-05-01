@@ -10,12 +10,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ✅ ROOT ROUTE (FIXES "Cannot GET /")
+app.get("/", (req, res) => {
+  res.send("🚀 FitPilot Backend is LIVE");
+});
+
 // 🔐 Claude setup
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-// 🧠 AI call
+// 🧠 Claude call
 async function callClaude(prompt) {
   try {
     const msg = await anthropic.messages.create({
@@ -27,18 +32,18 @@ async function callClaude(prompt) {
     return msg.content[0].text;
 
   } catch (err) {
-    console.error("ERROR:", err);
+    console.error("CLAUDE ERROR:", err);
     return "⚠️ AI unavailable";
   }
 }
 
-// 🧪 TEST
+// 🧪 TEST ROUTE
 app.get("/test", async (req, res) => {
-  const result = await callClaude("Say hello");
+  const result = await callClaude("Say hello in one short sentence");
   res.json({ result });
 });
 
-// 📅 PLAN (FULL WEEKLY PLAN)
+// 📅 GENERATE WEEKLY PLAN
 app.post("/plan", async (req, res) => {
   const profile = req.body;
 
@@ -52,7 +57,8 @@ ${JSON.stringify(profile)}
 
 Rules:
 - Respect diet preference (veg / non-veg)
-- Consider age, gender, weight, goal
+- Consider age, gender, weight, and goal
+- Keep it realistic for Indian lifestyle
 
 For EACH DAY provide:
 
@@ -60,32 +66,34 @@ DAY 1:
 - Breakfast
 - Lunch
 - Dinner
-- Workout
+- Workout (home/gym)
 - Tips
 
 Repeat for DAY 1 to DAY 7
 
-Make it structured, clean, realistic, Indian-friendly.
+Format cleanly and clearly.
 `);
 
   res.json({ plan });
 });
 
-// 📊 MEMORY (simple in-memory store)
+// 📊 SIMPLE MEMORY STORE
 let history = [];
 
-// ✅ Check-in
+// ✅ CHECK-IN
 app.post("/checkin", (req, res) => {
   history.push(req.body);
   res.json({ message: "Saved" });
 });
 
-// 📈 Progress
+// 📈 PROGRESS
 app.get("/progress", (req, res) => {
   res.json(history);
 });
 
 // 🚀 START SERVER
-app.listen(3000, () => {
-  console.log("🚀 FitPilot running at http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 FitPilot running on http://localhost:${PORT}`);
 });
